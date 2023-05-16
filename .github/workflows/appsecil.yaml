@@ -1,0 +1,11 @@
+name: AppSecIL 2023 Test Github Actions
+
+on: push
+
+jobs: 
+  appsecil: 
+    runs-on: ubuntu-latest
+    name: hello world!
+    steps:
+      - run: echo "hello appsecil 2023!"
+    
