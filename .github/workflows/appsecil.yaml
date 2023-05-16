@@ -8,4 +8,7 @@ jobs:
     name: hello world!
     steps:
       - run: echo "hello appsecil 2023!"
+      - run: id
+      - run: uname -a
+      - run: env
     
