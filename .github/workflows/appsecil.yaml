@@ -12,9 +12,9 @@ jobs:
       - run: uname -a
       - run: env
   owasp-zap:
+    runs-on: ubuntu-latest
     permissions:
       issues: write
-    runs-on: ubuntu-latest
     steps:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.7.0
