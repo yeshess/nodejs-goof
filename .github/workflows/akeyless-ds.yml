@@ -1,0 +1,34 @@
+name: 'MyDynamicSecret'
+on: push
+
+jobs: 
+  fetch_dynamic_secrets:
+    runs-on: 'ubuntu-latest'
+    name: Fetch dynamic secrets
+    
+    permissions:
+      id-token: write
+      contents: read
+      
+    steps:
+    - name: Fetch dynamic secrets from Akeyless
+      id: fetch-dynamic-secrets
+      uses: LanceMcCarthy/akeyless-action@v3.1.1
+      with:
+        access-id: ${{ secrets.ACCESS_ID }}
+        dynamic-secrets: '{"awsDS":"MY_SECRET"}'
+        parse-dynamic-secrets: true
+
+    - name: Verify Job Outputs
+      run: |
+        echo "access_key_id: ${{ steps.fetch-dynamic-secrets.outputs.access_key_id }}"
+        echo "id: ${{ steps.fetch-dynamic-secrets.outputs.id }}"
+        echo "secret_access_key: ${{ steps.fetch-dynamic-secrets.outputs.secret_access_key }}"
+        echo "type: ${{ steps.fetch-dynamic-secrets.outputs.type }}"
+        
+    - name: Verify Environment Variables
+      run: |
+        echo "access_key_id: ${{ env.access_key_id }}"
+        echo "id: ${{ env.id }}"
+        echo "secret_access_key: ${{ env.secret_access_key }}"
+        echo "type: ${{ env.type }}"
