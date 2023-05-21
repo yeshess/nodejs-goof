@@ -16,7 +16,7 @@ jobs:
       uses: LanceMcCarthy/akeyless-action@v3.1.1
       with:
         access-id: ${{ secrets.ACCESS_ID }}
-        dynamic-secrets: '{"awsDS":"MY_SECRET"}'
+        dynamic-secrets: '{"awsDS":""}'
         parse-dynamic-secrets: true
 
     - name: Verify Job Outputs
