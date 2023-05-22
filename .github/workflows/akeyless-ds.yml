@@ -21,10 +21,10 @@ jobs:
 
     - name: Verify Job Outputs
       run: |
-        echo "access_key_id:" ${{ steps.fetch-dynamic-secrets.outputs.access_key_id }}
-        echo "id:" ${{ steps.fetch-dynamic-secrets.outputs.id }}
-        echo "secret_access_key:" ${{ steps.fetch-dynamic-secrets.outputs.secret_access_key }}
-        echo "type:" ${{ steps.fetch-dynamic-secrets.outputs.type }}
+        echo "access_key_id: ${{ steps.fetch-dynamic-secrets.outputs.access_key_id }}"
+        echo "id: ${{ steps.fetch-dynamic-secrets.outputs.id }}"
+        echo "secret_access_key: ${{ steps.fetch-dynamic-secrets.outputs.secret_access_key }}"
+        echo "type: ${{ steps.fetch-dynamic-secrets.outputs.type }}"
         
     - name: Verify Environment Variables
       run: |
