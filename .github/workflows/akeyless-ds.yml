@@ -1,6 +1,6 @@
 name: 'MyDynamicSecret'
 on: push
- 
+
 jobs: 
   fetch_dynamic_secrets:
     runs-on: 'ubuntu-latest'
@@ -16,12 +16,11 @@ jobs:
       uses: LanceMcCarthy/akeyless-action@v3.1.1
       with:
         access-id: ${{ secrets.ACCESS_ID }}
-        dynamic-secrets: '{"awsDS":"AWSDS"}'
-        parse-dynamic-secrets: true
-
+        dynamic-secrets: '{"awsDS":"MY_SECRET"}'
+        
     - name: Export Secrets to Environment
       run: |
-        echo '${{ steps.fetch-dynamic-secrets.outputs.AWSDS }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
+        echo '${{ steps.fetch-dynamic-secrets.outputs.MY_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
 # You can now access each secret separately as environment variables
     - name: Verify Vars
       run: |
@@ -29,13 +28,3 @@ jobs:
         echo "id: ${{ env.JWT_id }}"
         echo "secret_access_key: ${{ env.JWT_secret_access_key }}"
         echo "type: ${{ env.JWT_type }}"
-
-    - name: Verify Job Outputs using jq
-      run: |
-        echo "Your job output secret is ${{ steps.fetch-secrets.outputs.AWSDS }}"
-        echo "Manually parsed ID:" 
-        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.id'
-        echo "Manually parsed TOKEN:" 
-        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.token'
-        echo "Manually parsed TTL_IN_MINUTES:" 
-        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.ttl_in_minutes'
