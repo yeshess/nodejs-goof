@@ -16,19 +16,16 @@ jobs:
       uses: LanceMcCarthy/akeyless-action@v3.1.1
       with:
         access-id: ${{ secrets.ACCESS_ID }}
-        dynamic-secrets: '{"awsDS":""}'
+        dynamic-secrets: '{"awsDS":"AWSDS"}'
         parse-dynamic-secrets: true
 
-    - name: Verify Job Outputs
+    - name: Export Secrets to Environment
       run: |
-        echo "access_key_id: ${{ steps.fetch-dynamic-secrets.outputs.access_key_id }}"
-        echo "id: ${{ steps.fetch-dynamic-secrets.outputs.id }}"
-        echo "secret_access_key: ${{ steps.fetch-dynamic-secrets.outputs.secret_access_key }}"
-        echo "type: ${{ steps.fetch-dynamic-secrets.outputs.type }}"
-        
-    - name: Verify Environment Variables
+        echo '${{ steps.fetch-dynamic-secrets.outputs.AWSDS }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
+# You can now access each secret separately as environment variables
+    - name: Verify Vars
       run: |
-        echo "access_key_id: ${{ env.access_key_id }}"
-        echo "id: ${{ env.id }}"
-        echo "secret_access_key: ${{ env.secret_access_key }}"
-        echo "type: ${{ env.type }}"
+        echo "access_key_id: ${{ env.JWT_access_key_id }}"
+        echo "id: ${{ env.JWT_id }}"
+        echo "secret_access_key: ${{ env.JWT_secret_access_key }}"
+        echo "type: ${{ env.JWT_type }}"
