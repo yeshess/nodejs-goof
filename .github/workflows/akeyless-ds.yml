@@ -29,3 +29,13 @@ jobs:
         echo "id: ${{ env.JWT_id }}"
         echo "secret_access_key: ${{ env.JWT_secret_access_key }}"
         echo "type: ${{ env.JWT_type }}"
+
+    - name: Verify Job Outputs using jq
+      run: |
+        echo "Your job output secret is ${{ steps.fetch-secrets.outputs.AWSDS }}"
+        echo "Manually parsed ID:" 
+        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.id'
+        echo "Manually parsed TOKEN:" 
+        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.token'
+        echo "Manually parsed TTL_IN_MINUTES:" 
+        echo '${{ steps.fetch-secrets.outputs.AWSDS }}' | jq '.ttl_in_minutes'
